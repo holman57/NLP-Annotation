@@ -68,3 +68,4 @@ node_modules/
 # dotenv environment variables file
 .env
 *.xml
+database.rules.json
