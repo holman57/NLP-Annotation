@@ -36,17 +36,20 @@ function initFirebaseAuth() {
 
 // Returns the signed-in user's profile Pic URL.
 function getProfilePicUrl() {
-  return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
+  return true;
+  // return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
 }
 
 // Returns the signed-in user's display name.
 function getUserName() {
-  return firebase.auth().currentUser.displayName;
+  return true;
+  // return firebase.auth().currentUser.displayName;
 }
 
 // Returns true if a user is signed-in.
 function isUserSignedIn() {
-  return !!firebase.auth().currentUser;
+  return true
+  //return !!firebase.auth().currentUser;
 }
 
 // Saves a new message on the Cloud Firestore.
@@ -127,13 +130,13 @@ function saveMessagingDeviceToken() {
 
 // Requests permissions to show notifications.
 function requestNotificationsPermissions() {
-  console.log('Requesting notifications permission...');
-  firebase.messaging().requestPermission().then(function() {
-    // Notification permission granted.
-    saveMessagingDeviceToken();
-  }).catch(function(error) {
-    console.error('Unable to get permission to notify.', error);
-  });
+  // console.log('Requesting notifications permission...');
+  // firebase.messaging().requestPermission().then(function() {
+  //   // Notification permission granted.
+  //   saveMessagingDeviceToken();
+  // }).catch(function(error) {
+  //   console.error('Unable to get permission to notify.', error);
+  // });
 }
 
 // Triggered when a file is selected via the media picker.
