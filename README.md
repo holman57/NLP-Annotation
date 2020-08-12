@@ -1,7 +1,7 @@
 # NLP-Annotation
 ## https://nlp-annotation-30942.web.app/
 
-#### A quick and dirty interface that assigns possible or not possible to natural language instructions given a single image.
+#### An interface for assigning annotations to short videos
 
 ### Documentation
 - #### https://docs.google.com/document/d/1C4MCiYof1wPMm8qHOG7U-z7WNdvqNNqsSg7AiuVyt_o

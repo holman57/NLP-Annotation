@@ -36,20 +36,17 @@ function initFirebaseAuth() {
 
 // Returns the signed-in user's profile Pic URL.
 function getProfilePicUrl() {
-  return true;
-  // return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
+  return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
 }
 
 // Returns the signed-in user's display name.
 function getUserName() {
-  return true;
-  // return firebase.auth().currentUser.displayName;
+  return firebase.auth().currentUser.displayName;
 }
 
 // Returns true if a user is signed-in.
 function isUserSignedIn() {
-  return true
-  //return !!firebase.auth().currentUser;
+  return !!firebase.auth().currentUser;
 }
 
 // Saves a new message on the Cloud Firestore.
