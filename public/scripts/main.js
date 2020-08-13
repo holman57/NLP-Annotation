@@ -1,5 +1,13 @@
 
 
+var button_opacity = 0.4;
+
+var not_possible = false;
+var possible = false;
+var incomplete_scene = false;
+var language_use = false;
+var unknown = false;
+
 
 // Signs-in Friendly Chat.
 function signIn() {
@@ -62,11 +70,12 @@ function loadMessages() {
   storageRef.child('videos/10000.mp4').getDownloadURL().then(function(url) {
     var test = url;
     // alert(url);
-
-    document.querySelector('#display-source').src = test;
+    var display_source = document.querySelector('#display-source').src = test;
     var display_video = document.querySelector('#display-video')
-    display_video.load()
-    display_video.play()
+
+    display_source = test;
+    display_video.load();
+    display_video.play();
 
   }).catch(function(error) {
   });
@@ -345,6 +354,124 @@ function toggleButton() {
     submitButtonElement.setAttribute('disabled', 'true');
   }
 }
+
+//------------------------------------------------------------------------------------------------------------------
+
+function toggleNotPossible() {
+  if (not_possible) {
+    resetLabelButtons()
+    not_possible = false;
+  }
+  else {
+    resetLabelButtons()
+    not_possible = true;
+  }
+  resetLabelOpacity()
+}
+
+function togglePossible() {
+  if (possible) {
+    resetLabelButtons()
+    possible = false;
+  }
+  else {
+    resetLabelButtons()
+    possible = true;
+  }
+  resetLabelOpacity()
+}
+
+function toggleIncompleteScene() {
+  if (incomplete_scene) {
+    resetLabelButtons()
+    incomplete_scene = false;
+  }
+  else {
+    resetLabelButtons()
+    incomplete_scene = true;
+  }
+  resetLabelOpacity()
+}
+
+function toggleLanguageUse() {
+  if (language_use) {
+    resetLabelButtons()
+    language_use = false;
+  }
+  else {
+    resetLabelButtons()
+    language_use = true;
+  }
+  resetLabelOpacity()
+}
+
+function toggleUnknown() {
+  if (unknown) {
+    resetLabelButtons()
+    unknown = false;
+  }
+  else {
+    resetLabelButtons()
+    unknown = true;
+  }
+  resetLabelOpacity()
+}
+
+function resetLabelOpacity() {
+  if (not_possible) document.querySelector('#not-possible').style.opacity = 1
+  else document.querySelector('#not-possible').style.opacity = button_opacity
+  if (possible) document.querySelector('#possible').style.opacity = 1
+  else document.querySelector('#possible').style.opacity = button_opacity
+  if (incomplete_scene) document.querySelector('#incomplete-scene').style.opacity = 1
+  else document.querySelector('#incomplete-scene').style.opacity = button_opacity
+  if (language_use) document.querySelector('#language-use').style.opacity = 1
+  else document.querySelector('#language-use').style.opacity = button_opacity
+  if (unknown) document.querySelector('#unknown').style.opacity = 1
+  else document.querySelector('#unknown').style.opacity = button_opacity
+}
+
+function resetLabelButtons() {
+  not_possible = false;
+  possible = false;
+  incomplete_scene = false;
+  language_use = false;
+  unknown = false;
+}
+
+
+
+window.addEventListener("load", activateStickyFooter);
+
+function activateStickyFooter() {
+  adjustFooterCssTopToSticky();
+  window.addEventListener("resize", adjustFooterCssTopToSticky);
+}
+
+function adjustFooterCssTopToSticky() {
+  const footer = document.querySelector("#footer");
+  const bounding_box = footer.getBoundingClientRect();
+  const footer_height = bounding_box.height;
+  const window_height = window.innerHeight;
+  const above_footer_height = bounding_box.top - getCssTopAttribute(footer);
+  if (above_footer_height + footer_height <= window_height) {
+    const new_footer_top = window_height - (above_footer_height + footer_height);
+    footer.style.top = new_footer_top + "px";
+  } else if (above_footer_height + footer_height > window_height) {
+    footer.style.top = null;
+  }
+}
+
+function getCssTopAttribute(htmlElement) {
+  const top_string = htmlElement.style.top;
+  if (top_string === null || top_string.length === 0) {
+    return 0;
+  }
+  const extracted_top_pixels = top_string.substring(0, top_string.length - 2);
+  return parseFloat(extracted_top_pixels);
+}
+
+//------------------------------------------------------------------------------------------------------------------
+
 
 // Checks that the Firebase SDK has been correctly setup and configured.
 function checkSetup() {

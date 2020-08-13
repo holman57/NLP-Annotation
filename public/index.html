@@ -67,11 +67,15 @@
 
 
 
-
-      <video id="display-video" width="640" height="380" controls>
+      <video id="display-video"
+             width="600"
+             height="300"
+             controls
+             autoplay="true"
+             muted="muted"
+             loop="true">
         <source id="display-source" src="" type="video/mp4">
       </video>
-
 
 
 
@@ -79,6 +83,42 @@
       <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
           <div id="messages">
+
+            <button id="not-possible"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                    onclick="toggleNotPossible()"
+                    style="opacity: 0.5;">
+              Not possible
+            </button>
+
+            <button id="possible"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                    onclick="togglePossible()"
+                    style="opacity: 0.5;">
+              Possible
+            </button>
+
+            <button id="incomplete-scene"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                    onclick="toggleIncompleteScene()"
+                    style="opacity: 0.5;">
+              Incomplete Scene
+            </button>
+
+            <button id="language-use"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                    onclick="toggleLanguageUse()"
+                    style="opacity: 0.5;">
+              Language Use
+            </button>
+
+            <button id="unknown"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                    onclick="toggleUnknown()"
+                    style="opacity: 0.5;">
+              Unknown
+            </button>
+
           </div>
           <form id="message-form" action="#">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -104,8 +144,11 @@
       </div>
 
     </div>
+    <footer class="footer">Hello my name is footer</footer>
   </main>
 </div>
+
+
 
 <!-- Import and configure the Firebase SDK -->
 <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
