@@ -13,11 +13,14 @@ Implemented using Firebase
 - https://firebase.google.com/docs/web/setup
 - https://firebase.google.com/docs/functions/typescript 
 
+Access Firebase storage
+- https://stackoverflow.com/questions/38452633/display-images-from-firebase-storage-in-html-img-tags/38452813
+
+Web Chat
+- https://codelabs.developers.google.com/codelabs/firebase-web/#0
+
 Serverless API
 - https://indepth.dev/building-an-api-with-firebase/
   - https://github.com/andrewevans0102/how-to-build-a-firebase-api
   - https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
   - https://expressjs.com/en/guide/routing.html
-
-Web Chat
-- https://codelabs.developers.google.com/codelabs/firebase-web/#0
