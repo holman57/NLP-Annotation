@@ -1,6 +1,6 @@
 
 
-var button_opacity = 0.4;
+var button_opacity = 0.5;
 
 var not_possible = false;
 var possible = false;

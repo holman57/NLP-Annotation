@@ -195,3 +195,18 @@ main{
   height: 72px;
   background-color: #0288D1;
 }
+#dock {
+  margin-left: 25%;
+}
+#left, #right {
+  height: 60px;
+}
+.dock-buttons {
+  margin: 6px;
+  width: 20%;
+  background-color: #23a1e6;
+}
+#position {
+  margin-left: 5%;
+  margin-right: 5%;
+}
