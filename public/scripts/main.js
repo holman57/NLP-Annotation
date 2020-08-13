@@ -1,6 +1,11 @@
 
 
-var button_opacity = 0.5;
+labeled_vids = [];
+storage_vids = [];
+index = [];
+
+var current_position;
+
 
 var not_possible = false;
 var possible = false;
@@ -8,6 +13,7 @@ var incomplete_scene = false;
 var language_use = false;
 var unknown = false;
 
+var button_opacity = 0.5;
 
 
 // Get the modal
@@ -37,7 +43,11 @@ window.onclick = function(event) {
 }
 
 
-
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 // Signs-in Friendly Chat.
 function signIn() {
@@ -92,28 +102,6 @@ function loadMessages() {
   // const container = document.createElement('div');
   // const div = container.firstChild;
   // div.setAttribute('id', id);
-
-  // ------------------------------------------------------------------------------------------------------------------
-
-  var storageRef = firebase.storage().ref();
-  var spaceRef = storageRef.child('videos/10000.mp4');
-  storageRef.child('videos/10000.mp4').getDownloadURL().then(function(url) {
-    var test = url;
-    // alert(url);
-    var display_source = document.querySelector('#display-source').src = test;
-    var display_video = document.querySelector('#display-video')
-
-    display_source = test;
-    display_video.load();
-    display_video.play();
-
-  }).catch(function(error) {
-  });
-
-  //-------------------------------------------------------------------------------------------------------------------
-
-
-
   // Create the query to load the last 12 messages and listen for new ones.
   var query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(12);
   
@@ -321,26 +309,20 @@ function createAndInsertMessage(id, timestamp) {
     messageListElement.appendChild(div);
   } else {
     let messageListNode = existingMessages[0];
-
     while (messageListNode) {
       const messageListNodeTime = messageListNode.getAttribute('timestamp');
-
       if (!messageListNodeTime) {
         throw new Error(
           `Child ${messageListNode.id} has no 'timestamp' attribute`
         );
       }
-
       if (messageListNodeTime > timestamp) {
         break;
       }
-
       messageListNode = messageListNode.nextSibling;
     }
-
     messageListElement.insertBefore(div, messageListNode);
   }
-
   return div;
 }
 
@@ -466,6 +448,14 @@ function resetLabelOpacity() {
   }
 }
 
+function getLabel() {
+  if (not_possible) return "Not possible";
+  if (possible) return "Possible";
+  if (incomplete_scene) return "Incomplete scene";
+  if (language_use) return "Language use";
+  if (unknown) return "Unknown";
+}
+
 function resetLabelButtons() {
   not_possible = false;
   possible = false;
@@ -506,21 +496,71 @@ function getCssTopAttribute(htmlElement) {
   return parseFloat(extracted_top_pixels);
 }
 
-function checkLabels() {
-  firebase.firestore().collection("videos").get().then(function(querySnapshot) {
+
+function left() {
+
+}
+
+function right() {
+  firebase.firestore().collection("videos").doc().set({
+    id: current_position,
+    label: getLabel()
+  })
+  storage_vids.pop(current_position);
+  resetLabelButtons()
+  resetLabelOpacity()
+  // await post;
+  getVideo();
+}
+
+
+async function checkLabels() {
+  const labels = firebase.firestore().collection("videos").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-      console.log(doc.id, " => ", doc.data());
+      labeled_vids[labeled_vids.length] = parseInt(doc.data().id);
     });
   });
   var storageRef = firebase.storage().ref("videos");
-  storageRef.listAll().then(function(result) {
-    result.items.forEach(function(imageRef) {
-
-      console.log(imageRef);
-    });
-  }).catch(function(error) {
-
+  const stor = storageRef.listAll().then(function(result) {
+    result.items.forEach(function(item) {
+      vid = parseInt(item.location.path.replace("videos/", "").replace(".mp4", ""));
+      storage_vids[storage_vids.length] = vid;
+    })
   });
+
+  await labels;
+  await stor;
+
+  storage_vids = storage_vids.filter(function(el) {
+    return labeled_vids.indexOf(el) < 0;
+  });
+
+  console.log(labeled_vids);
+  console.log(storage_vids);
+}
+
+
+function getVideo() {
+  var rand_num = getRandomInt(0, storage_vids.length - 1)
+  console.log(rand_num)
+  console.log(storage_vids);
+  current_position = parseInt(storage_vids[rand_num]);
+  var video = 'videos/' +  storage_vids[rand_num].toString() + '.mp4';
+  var storageRef = firebase.storage().ref();
+  var spaceRef = storageRef.child(video);
+  storageRef.child(video).getDownloadURL().then(function(url) {
+    var test = url;
+    // alert(url);
+    var display_source = document.querySelector('#display-source').src = test;
+    var display_video = document.querySelector('#display-video')
+
+    display_source = test;
+    display_video.load();
+    display_video.play();
+
+  }).catch(function(error) {
+  });
+
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -575,6 +615,12 @@ initFirebaseAuth();
 firebase.performance();
 
 // We load currently existing chat messages and listen to new ones.
-loadMessages();
+// loadMessages();
 resetLabelOpacity();
-checkLabels();
+checkLabels().then( res => {
+  if (storage_vids.length > 0)
+    getVideo();
+})
+
+
+
