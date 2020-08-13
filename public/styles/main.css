@@ -1,12 +1,9 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
-main, #messages-card {
+main{
   /*min-height: 100%;*/
-
-  /*!* Equal to height of footer *!*/
-  /*!* But also accounting for potential margin-bottom of last child *!*/
-  /*margin-bottom: -50px;*/
+  /*margin-bottom: 72px;*/
 }
 #messages-card-container {
   height: calc(100% - 35px);
@@ -195,5 +192,6 @@ main, #messages-card {
   margin-top: 15px;
 }
 .footer {
-  height: 50px;
+  height: 72px;
+  background-color: #0288D1;
 }
