@@ -9,6 +9,36 @@ var language_use = false;
 var unknown = false;
 
 
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+
 // Signs-in Friendly Chat.
 function signIn() {
   // Sign in Firebase using popup auth and Google as the identity provider.
@@ -428,6 +458,12 @@ function resetLabelOpacity() {
   else document.querySelector('#language-use').style.opacity = button_opacity
   if (unknown) document.querySelector('#unknown').style.opacity = 1
   else document.querySelector('#unknown').style.opacity = button_opacity
+
+  if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown) {
+    document.querySelector('#right').setAttribute('disabled', 'true');
+  } else {
+    document.querySelector('#right').removeAttribute('disabled');
+  }
 }
 
 function resetLabelButtons() {
@@ -468,6 +504,23 @@ function getCssTopAttribute(htmlElement) {
   }
   const extracted_top_pixels = top_string.substring(0, top_string.length - 2);
   return parseFloat(extracted_top_pixels);
+}
+
+function checkLabels() {
+  firebase.firestore().collection("videos").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      console.log(doc.id, " => ", doc.data());
+    });
+  });
+  var storageRef = firebase.storage().ref("videos");
+  storageRef.listAll().then(function(result) {
+    result.items.forEach(function(imageRef) {
+
+      console.log(imageRef);
+    });
+  }).catch(function(error) {
+
+  });
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -523,3 +576,5 @@ firebase.performance();
 
 // We load currently existing chat messages and listen to new ones.
 loadMessages();
+resetLabelOpacity();
+checkLabels();

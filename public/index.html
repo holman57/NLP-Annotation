@@ -147,17 +147,23 @@
   </main>
 
 
+  <!-- Trigger/Open The Modal -->
+  <button id="myBtn">Open Modal</button>
+
+
   <footer class="footer">
     <div id="dock">
       <button id="left"
-              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect dock-buttons">
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect dock-buttons"
+              onclick="">
         <i class="material-icons mdl-color-text--white">arrow_back_ios</i>
       </button>
       <h3 id="position" style="display: inline" class="mdl-color-text--white">
         0/200
       </h3>
       <button id="right"
-              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect dock-buttons">
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect dock-buttons"
+              onclick="">
         <i class="material-icons mdl-color-text--white">arrow_forward_ios</i>
       </button>
     </div>
@@ -165,6 +171,33 @@
 
 
 </div>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">
+        <i class="material-icons mdl-color-text--white">clear</i>
+      </span>
+      <p></p>
+    </div>
+    <div class="modal-body">
+      <h3>
+        Use the arrow keys to move forward or backward
+      </h3>
+    </div>
+    <div class="modal-footer">
+      <p></p>
+    </div>
+  </div>
+
+</div>
+
+
+
 
 
 
