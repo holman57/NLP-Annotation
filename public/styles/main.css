@@ -1,9 +1,8 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
-main{
-  /*min-height: 100%;*/
-  /*margin-bottom: 72px;*/
+.demo-layout {
+  background: #0288d1;
 }
 #messages-card-container {
   height: calc(100% - 35px);
@@ -188,33 +187,6 @@ main{
 #sign-in, #image-form, #message-form {
   display: none;
 }
-#display-video, .label-button {
-  margin-top: 15px;
-}
-.footer {
-  height: 72px;
-  background-color: #0288D1;
-}
-#dock {
-  margin-left: 25%;
-}
-#left, #right {
-  height: 60px;
-}
-.dock-buttons {
-  margin: 6px;
-  width: 20%;
-  background-color: #23a1e6;
-}
-#position {
-  margin-left: 5%;
-  margin-right: 5%;
-}
-
-
-
-
-
 
 /* The Modal (background) */
 .modal {
@@ -287,3 +259,38 @@ main{
   color: white;
   height: 51px;
 }
+#display-video, .label-button {
+  margin-top: 15px;
+}
+.footer {
+  height: 72px;
+  background-color: #0288D1;
+}
+#dock {
+  margin-left: 25%;
+}
+#left, #right {
+  height: 60px;
+}
+.dock-buttons {
+  margin: 6px;
+  width: 20%;
+  background-color: #23a1e6;
+}
+#position {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#myBtn {
+  display: none;
+}
+@media screen and (min-width: 960px) {
+  main {
+    max-height: 346px;
+  }
+}
+@media screen and (min-width: 961px) {
+  main {}
+}
+

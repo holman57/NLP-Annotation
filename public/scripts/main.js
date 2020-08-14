@@ -371,75 +371,75 @@ function toggleButton() {
 
 function toggleNotPossible() {
   if (not_possible) {
-    resetLabelButtons()
+    resetLabelButtons();
     not_possible = false;
   }
   else {
-    resetLabelButtons()
+    resetLabelButtons();
     not_possible = true;
   }
-  resetLabelOpacity()
+  resetLabelOpacity();
 }
 
 function togglePossible() {
   if (possible) {
-    resetLabelButtons()
+    resetLabelButtons();
     possible = false;
   }
   else {
-    resetLabelButtons()
+    resetLabelButtons();
     possible = true;
   }
-  resetLabelOpacity()
+  resetLabelOpacity();
 }
 
 function toggleIncompleteScene() {
   if (incomplete_scene) {
-    resetLabelButtons()
+    resetLabelButtons();
     incomplete_scene = false;
   }
   else {
-    resetLabelButtons()
+    resetLabelButtons();
     incomplete_scene = true;
   }
-  resetLabelOpacity()
+  resetLabelOpacity();
 }
 
 function toggleLanguageUse() {
   if (language_use) {
-    resetLabelButtons()
+    resetLabelButtons();
     language_use = false;
   }
   else {
-    resetLabelButtons()
+    resetLabelButtons();
     language_use = true;
   }
-  resetLabelOpacity()
+  resetLabelOpacity();
 }
 
 function toggleUnknown() {
   if (unknown) {
-    resetLabelButtons()
+    resetLabelButtons();
     unknown = false;
   }
   else {
-    resetLabelButtons()
+    resetLabelButtons();
     unknown = true;
   }
-  resetLabelOpacity()
+  resetLabelOpacity();
 }
 
 function resetLabelOpacity() {
-  if (not_possible) document.querySelector('#not-possible').style.opacity = 1
-  else document.querySelector('#not-possible').style.opacity = button_opacity
-  if (possible) document.querySelector('#possible').style.opacity = 1
-  else document.querySelector('#possible').style.opacity = button_opacity
-  if (incomplete_scene) document.querySelector('#incomplete-scene').style.opacity = 1
-  else document.querySelector('#incomplete-scene').style.opacity = button_opacity
-  if (language_use) document.querySelector('#language-use').style.opacity = 1
-  else document.querySelector('#language-use').style.opacity = button_opacity
-  if (unknown) document.querySelector('#unknown').style.opacity = 1
-  else document.querySelector('#unknown').style.opacity = button_opacity
+  if (not_possible) document.querySelector('#not-possible').style.opacity = 1;
+  else document.querySelector('#not-possible').style.opacity = button_opacity;
+  if (possible) document.querySelector('#possible').style.opacity = 1;
+  else document.querySelector('#possible').style.opacity = button_opacity;
+  if (incomplete_scene) document.querySelector('#incomplete-scene').style.opacity = 1;
+  else document.querySelector('#incomplete-scene').style.opacity = button_opacity;
+  if (language_use) document.querySelector('#language-use').style.opacity = 1;
+  else document.querySelector('#language-use').style.opacity = button_opacity;
+  if (unknown) document.querySelector('#unknown').style.opacity = 1;
+  else document.querySelector('#unknown').style.opacity = button_opacity;
 
   if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown) {
     document.querySelector('#right').setAttribute('disabled', 'true');
@@ -614,7 +614,7 @@ initFirebaseAuth();
  // TODO: Enable Firebase Performance Monitoring.
 firebase.performance();
 
-// We load currently existing chat messages and listen to new ones.
+
 // loadMessages();
 resetLabelOpacity();
 checkLabels().then( res => {
