@@ -509,7 +509,8 @@ function right() {
   storage_vids.pop(current_position);
   resetLabelButtons()
   resetLabelOpacity()
-  // await post;
+  index.push(current_position)
+  var nav_position = document.querySelector('#position')
   getVideo();
 }
 
