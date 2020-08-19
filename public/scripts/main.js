@@ -2,7 +2,8 @@ labeled_vids = [];
 storage_vids = [];
 index = [];
 
-var current_position;
+var current_position = 0;
+var complete_labels = 0;
 
 var not_possible = false;
 var possible = false;
@@ -12,8 +13,7 @@ var unknown = false;
 
 var button_opacity = 0.5;
 
-
-// modal
+// --------------------------------------------------------------------- modal
 var modal = document.getElementById("myModal");
 var btn = document.getElementById("myBtn");
 var span = document.getElementsByClassName("close")[0];
@@ -28,6 +28,7 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
+// -------------------------------------------------------------------------------------------
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -487,10 +488,12 @@ function right() {
         label: getLabel()
     })
     storage_vids.pop(current_position);
-    resetLabelButtons()
-    resetLabelOpacity()
+    resetLabelButtons();
+    resetLabelOpacity();
     index.push(current_position)
-    var nav_position = document.querySelector('#position')
+    complete_labels++;
+    var nav_position = document.querySelector('#position');
+    nav_position.innerHTML = complete_labels.toString() + "/200";
     getVideo();
 }
 
