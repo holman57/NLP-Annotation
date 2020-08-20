@@ -424,10 +424,18 @@ function resetLabelOpacity() {
     if (unknown) document.querySelector('#unknown').style.opacity = 1;
     else document.querySelector('#unknown').style.opacity = button_opacity;
 
+    // Nav Right
     if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown) {
         document.querySelector('#right').setAttribute('disabled', 'true');
     } else {
         document.querySelector('#right').removeAttribute('disabled');
+    }
+
+    // Nav Left
+    if (complete_labels > 0) {
+      document.querySelector('#left').setAttribute('disabled', 'true');
+    } else {
+      document.querySelector('#left').removeAttribute('disabled');
     }
 }
 
