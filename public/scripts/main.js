@@ -2,8 +2,8 @@ labeled_vids = [];
 storage_vids = [];
 index = [];
 
-var current_position = 0;
-var complete_labels = 0;
+var current_id = 0;
+var position = 0;
 
 var not_possible = false;
 var possible = false;
@@ -432,10 +432,10 @@ function resetLabelOpacity() {
     }
 
     // Nav Left
-    if (complete_labels > 0) {
-      document.querySelector('#left').setAttribute('disabled', 'true');
+    if (position > 0) {
+        document.querySelector('#left').removeAttribute('disabled');
     } else {
-      document.querySelector('#left').removeAttribute('disabled');
+        document.querySelector('#left').setAttribute('disabled', 'true');
     }
 }
 
@@ -491,17 +491,17 @@ function left() {
 }
 
 function right() {
-    firebase.firestore().collection("videos").doc(current_position.toString()).set({
-        id: current_position,
+    firebase.firestore().collection("videos").doc(current_id.toString()).set({
+        id: current_id,
         label: getLabel()
     })
-    storage_vids.pop(current_position);
+    storage_vids.pop(current_id);
+    position++;
     resetLabelButtons();
     resetLabelOpacity();
-    index.push(current_position)
-    complete_labels++;
+    index.push(current_id)
     var nav_position = document.querySelector('#position');
-    nav_position.innerHTML = complete_labels.toString() + "/200";
+    nav_position.innerHTML = position.toString() + "/200";
     getVideo();
 }
 
@@ -534,7 +534,7 @@ function getVideo() {
     var rand_num = getRandomInt(0, storage_vids.length - 1)
     console.log(rand_num)
     console.log(storage_vids);
-    current_position = parseInt(storage_vids[rand_num]);
+    current_id = parseInt(storage_vids[rand_num]);
     var video = 'videos/' + storage_vids[rand_num].toString() + '.mp4';
     var storageRef = firebase.storage().ref();
     var spaceRef = storageRef.child(video);
@@ -608,6 +608,5 @@ checkLabels().then(res => {
     if (storage_vids.length > 0)
         getVideo();
 })
-
 
 
