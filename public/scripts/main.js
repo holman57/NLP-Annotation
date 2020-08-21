@@ -491,7 +491,7 @@ function left() {
 }
 
 function right() {
-    firebase.firestore().collection("videos").doc().set({
+    firebase.firestore().collection("videos").doc(current_position.toString()).set({
         id: current_position,
         label: getLabel()
     })
