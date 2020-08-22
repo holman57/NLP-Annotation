@@ -2,21 +2,23 @@ labeled_vids = [];
 storage_vids = [];
 index = [];
 
-var current_id = 0;
-var position = 0;
+let current_id = 0;
+let position = 0;
 
-var not_possible = false;
-var possible = false;
-var incomplete_scene = false;
-var language_use = false;
-var unknown = false;
+let not_possible = false;
+let possible = false;
+let incomplete_scene = false;
+let language_use = false;
+let unknown = false;
 
-var button_opacity = 0.5;
+const button_opacity = 0.5;
+
+const nav_position = document.querySelector('#position');
 
 // --------------------------------------------------------------------- modal
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("myBtn");
+const span = document.getElementsByClassName("close")[0];
 btn.onclick = function () {
     modal.style.display = "block";
 }
@@ -24,7 +26,7 @@ span.onclick = function () {
     modal.style.display = "none";
 }
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
@@ -39,7 +41,7 @@ function getRandomInt(min, max) {
 // Signs-in Friendly Chat.
 function signIn() {
     // Sign in Firebase using popup auth and Google as the identity provider.
-    var provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
 }
 
@@ -90,7 +92,7 @@ function loadMessages() {
     // const div = container.firstChild;
     // div.setAttribute('id', id);
     // Create the query to load the last 12 messages and listen for new ones.
-    var query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(12);
+    const query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(12);
 
     // Start listening to the query.
     query.onSnapshot(function (snapshot) {
@@ -456,22 +458,65 @@ function resetLabelButtons() {
 }
 
 function left() {
-
+    position--;
+    console.log("position    : " + position);
+    console.log("index.length: " + index.length);
+    console.log("current id  : " + current_id);
+    resetLabelButtons();
+    resetLabelOpacity();
+    nav_position.innerHTML = position.toString() + "/200";
+    loadIndexVideo(index[position]);
 }
 
 function right() {
+    position++;
+    console.log("position    : " + position);
+    console.log("index.length: " + index.length);
+    console.log("current id  : " + current_id);
+    nav_position.innerHTML = position.toString() + "/200";
+    if (position < index.length) {
+        loadIndexVideo(index[position]);
+    } else {
+        storage_vids.pop(current_id);
+        labeled_vids.push(current_id);
+        index.push(current_id)
+        getVideo();
+    }
     firebase.firestore().collection("videos").doc(current_id.toString()).set({
         id: current_id,
         label: getLabel()
     })
-    storage_vids.pop(current_id);
-    position++;
     resetLabelButtons();
     resetLabelOpacity();
-    index.push(current_id)
-    var nav_position = document.querySelector('#position');
-    nav_position.innerHTML = position.toString() + "/200";
-    getVideo();
+}
+
+function getVideo() {
+    const rand_num = getRandomInt(0, storage_vids.length - 1);
+    console.log(rand_num)
+    current_id = parseInt(storage_vids[rand_num]);
+    const video = 'videos/' + storage_vids[rand_num].toString() + '.mp4';
+    const storageRef = firebase.storage().ref();
+    storageRef.child(video).getDownloadURL().then(function (url) {
+        document.querySelector('#display-source').src = url;
+        const display_video = document.querySelector('#display-video');
+        display_video.load();
+        display_video.play();
+    }).catch(function (error) {
+    });
+}
+
+function loadIndexVideo(id) {
+    current_id = id;
+    console.log("video id: " + id);
+    const video = 'videos/' + id.toString() + '.mp4';
+    const storageRef = firebase.storage().ref();
+    storageRef.child(video).getDownloadURL().then(function (url) {
+        document.querySelector('#display-source').src = url;
+        const display_video = document.querySelector('#display-video');
+        display_video.load();
+        display_video.play();
+    }).catch(function (error) {
+    });
 }
 
 async function checkLabels() {
@@ -487,38 +532,13 @@ async function checkLabels() {
             storage_vids[storage_vids.length] = vid;
         })
     });
-
     await labels;
     await stor;
-
     storage_vids = storage_vids.filter(function (el) {
         return labeled_vids.indexOf(el) < 0;
     });
-
     console.log(labeled_vids);
     console.log(storage_vids);
-}
-
-function getVideo() {
-    var rand_num = getRandomInt(0, storage_vids.length - 1)
-    console.log(rand_num)
-    current_id = parseInt(storage_vids[rand_num]);
-    var video = 'videos/' + storage_vids[rand_num].toString() + '.mp4';
-    var storageRef = firebase.storage().ref();
-    var spaceRef = storageRef.child(video);
-    storageRef.child(video).getDownloadURL().then(function (url) {
-        var test = url;
-        // alert(url);
-        var display_source = document.querySelector('#display-source').src = test;
-        var display_video = document.querySelector('#display-video')
-
-        display_source = test;
-        display_video.load();
-        display_video.play();
-
-    }).catch(function (error) {
-    });
-
 }
 
 //------------------------------------------------------------------------------------------------------------------
@@ -572,7 +592,7 @@ firebase.performance();
 
 // loadMessages();
 resetLabelOpacity();
-checkLabels().then(res => {
+checkLabels().then(function (){
     if (storage_vids.length > 0)
         getVideo();
 })
