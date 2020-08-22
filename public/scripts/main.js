@@ -441,6 +441,12 @@ function resetLabelOpacity() {
     }
 }
 
+function print_position() {
+    console.log("position    : " + position);
+    console.log("index.length: " + index.length);
+    console.log("current id  : " + current_id);
+}
+
 function getLabel() {
     if (not_possible) return "Not possible";
     if (possible) return "Possible";
@@ -459,9 +465,6 @@ function resetLabelButtons() {
 
 function left() {
     position--;
-    console.log("position    : " + position);
-    console.log("index.length: " + index.length);
-    console.log("current id  : " + current_id);
     resetLabelButtons();
     resetLabelOpacity();
     nav_position.innerHTML = position.toString() + "/200";
@@ -470,22 +473,18 @@ function left() {
 
 function right() {
     position++;
-    console.log("position    : " + position);
-    console.log("index.length: " + index.length);
-    console.log("current id  : " + current_id);
-    nav_position.innerHTML = position.toString() + "/200";
     if (position < index.length) {
         loadIndexVideo(index[position]);
     } else {
         storage_vids.pop(current_id);
         labeled_vids.push(current_id);
-        index.push(current_id)
         getVideo();
     }
     firebase.firestore().collection("videos").doc(current_id.toString()).set({
         id: current_id,
         label: getLabel()
     })
+    nav_position.innerHTML = position.toString() + "/200";
     resetLabelButtons();
     resetLabelOpacity();
 }
@@ -494,6 +493,7 @@ function getVideo() {
     const rand_num = getRandomInt(0, storage_vids.length - 1);
     console.log(rand_num)
     current_id = parseInt(storage_vids[rand_num]);
+    index.push(current_id)
     const video = 'videos/' + storage_vids[rand_num].toString() + '.mp4';
     const storageRef = firebase.storage().ref();
     storageRef.child(video).getDownloadURL().then(function (url) {
@@ -503,11 +503,11 @@ function getVideo() {
         display_video.play();
     }).catch(function (error) {
     });
+    print_position()
 }
 
 function loadIndexVideo(id) {
     current_id = id;
-    console.log("video id: " + id);
     const video = 'videos/' + id.toString() + '.mp4';
     const storageRef = firebase.storage().ref();
     storageRef.child(video).getDownloadURL().then(function (url) {
@@ -517,6 +517,7 @@ function loadIndexVideo(id) {
         display_video.play();
     }).catch(function (error) {
     });
+    print_position()
 }
 
 async function checkLabels() {
@@ -596,5 +597,4 @@ checkLabels().then(function (){
     if (storage_vids.length > 0)
         getVideo();
 })
-
 
