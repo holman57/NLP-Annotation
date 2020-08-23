@@ -592,8 +592,6 @@ async function checkLabels() {
     storage_vids = storage_vids.filter(function (el) {
         return labeled_vids.indexOf(el) < 0;
     });
-    console.log(labeled_vids);
-    console.log(storage_vids);
 }
 
 //------------------------------------------------------------------------------------------------------------------
