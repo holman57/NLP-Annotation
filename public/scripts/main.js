@@ -520,6 +520,11 @@ function right() {
     position++;
     if (position < index.length) {
         loadIndexVideo(index[position]);
+        labels[position - 1] = getLabel();
+        firebase.firestore().collection("videos").doc(current_id.toString()).set({
+            id: current_id,
+            label: getLabel()
+        })
         resetLabelButtons();
         checkIndexLabels(labels[position])
         console.log("label       : " + getLabel());
