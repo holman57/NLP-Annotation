@@ -1,6 +1,7 @@
 labeled_vids = [];
 storage_vids = [];
 index = [];
+labels = [];
 
 let current_id = 0;
 let position = 0;
@@ -12,8 +13,17 @@ let language_use = false;
 let unknown = false;
 
 const button_opacity = 0.5;
+const border_style = 'inset';
 
-const nav_position = document.querySelector('#position');
+const not_possible_button = document.querySelector('#not-possible');
+const possible_button = document.querySelector('#possible');
+const incomplete_scene_button = document.querySelector('#incomplete-scene');
+const language_use_button = document.querySelector('#language-use');
+const unknown_button = document.querySelector('#unknown');
+
+const right_button = document.querySelector('#right');
+const left_button = document.querySelector('#left');
+const nav_position = document.querySelector('#position')
 
 // --------------------------------------------------------------------- modal
 const modal = document.getElementById("myModal");
@@ -87,7 +97,6 @@ function saveMessage(messageText) {
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
-
     // const container = document.createElement('div');
     // const div = container.firstChild;
     // div.setAttribute('id', id);
@@ -415,30 +424,55 @@ function toggleUnknown() {
 }
 
 function resetLabelOpacity() {
-    if (not_possible) document.querySelector('#not-possible').style.opacity = 1;
-    else document.querySelector('#not-possible').style.opacity = button_opacity;
-    if (possible) document.querySelector('#possible').style.opacity = 1;
-    else document.querySelector('#possible').style.opacity = button_opacity;
-    if (incomplete_scene) document.querySelector('#incomplete-scene').style.opacity = 1;
-    else document.querySelector('#incomplete-scene').style.opacity = button_opacity;
-    if (language_use) document.querySelector('#language-use').style.opacity = 1;
-    else document.querySelector('#language-use').style.opacity = button_opacity;
-    if (unknown) document.querySelector('#unknown').style.opacity = 1;
-    else document.querySelector('#unknown').style.opacity = button_opacity;
+    if (not_possible) {
+        not_possible_button.style.opacity = 1;
+        not_possible_button.style.borderStyle = border_style;
+    }
+    else {
+        not_possible_button.style.opacity = button_opacity;
+        not_possible_button.style.borderStyle = 'none';
+    }
+    if (possible) {
+        possible_button.style.opacity = 1;
+        possible_button.style.borderStyle = border_style;
+    }
+    else {
+        possible_button.style.opacity = button_opacity;
+        possible_button.style.borderStyle = 'none';
+    }
+    if (incomplete_scene) {
+        incomplete_scene_button.style.opacity = 1;
+        incomplete_scene_button.style.borderStyle = border_style;
+    }
+    else {
+        incomplete_scene_button.style.opacity = button_opacity;
+        incomplete_scene_button.style.borderStyle = 'none';
+    }
+    if (language_use) {
+        language_use_button.style.opacity = 1;
+        language_use_button.style.borderStyle = border_style;
+    }
+    else {
+        language_use_button.style.opacity = button_opacity;
+        language_use_button.style.borderStyle = 'none';
+    }
+    if (unknown) {
+        unknown_button.style.opacity = 1;
+        unknown_button.style.borderStyle = border_style;
+    }
+    else {
+        unknown_button.style.opacity = button_opacity;
+        unknown_button.style.borderStyle = 'none';
+    }
 
     // Nav Right
-    if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown) {
-        document.querySelector('#right').setAttribute('disabled', 'true');
-    } else {
-        document.querySelector('#right').removeAttribute('disabled');
-    }
+    if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown)
+        right_button.setAttribute('disabled', 'true');
+    else right_button.removeAttribute('disabled');
 
     // Nav Left
-    if (position > 0) {
-        document.querySelector('#left').removeAttribute('disabled');
-    } else {
-        document.querySelector('#left').setAttribute('disabled', 'true');
-    }
+    if (position > 0) left_button.removeAttribute('disabled');
+    else left_button.setAttribute('disabled', 'true');
 }
 
 function print_position() {
@@ -463,29 +497,44 @@ function resetLabelButtons() {
     unknown = false;
 }
 
+function checkIndexLabels(item) {
+    if (item === "Not possible") not_possible = true;
+    if (item === "Possible") possible = true;
+    if (item === "Incomplete scene") incomplete_scene = true;
+    if (item === "Language use") language_use = true;
+    if (item === "Unknown") unknown = true;
+}
+
+//------------------------------------------------------------------------------------ Left / Right
 function left() {
     position--;
     resetLabelButtons();
-    resetLabelOpacity();
+    checkIndexLabels(labels[position])
+    console.log("label       : " + getLabel());
     nav_position.innerHTML = position.toString() + "/200";
     loadIndexVideo(index[position]);
+    resetLabelOpacity();
 }
 
 function right() {
     position++;
     if (position < index.length) {
         loadIndexVideo(index[position]);
+        resetLabelButtons();
+        checkIndexLabels(labels[position])
+        console.log("label       : " + getLabel());
     } else {
         storage_vids.pop(current_id);
         labeled_vids.push(current_id);
+        labels.push(getLabel())
+        firebase.firestore().collection("videos").doc(current_id.toString()).set({
+            id: current_id,
+            label: getLabel()
+        })
+        resetLabelButtons();
         getVideo();
     }
-    firebase.firestore().collection("videos").doc(current_id.toString()).set({
-        id: current_id,
-        label: getLabel()
-    })
     nav_position.innerHTML = position.toString() + "/200";
-    resetLabelButtons();
     resetLabelOpacity();
 }
 
