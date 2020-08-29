@@ -5,6 +5,7 @@ labels = [];
 
 let current_id = 0;
 let position = 0;
+let document_exists = true
 
 let not_possible = false;
 let possible = false;
@@ -543,11 +544,28 @@ function right() {
     resetLabelOpacity();
 }
 
-function getVideo() {
-    const rand_num = getRandomInt(0, storage_vids.length - 1);
-    console.log(rand_num)
+async function getVideo() {
+    let rand_num = getRandomInt(0, storage_vids.length - 1);
+    document_exists = true
+    while (document_exists) {
+        let docRef = firebase.firestore().collection("videos").doc(storage_vids[rand_num].toString());
+        let get_doc = docRef.get().then(function(doc) {
+            if (doc.exists) {
+                console.log(storage_vids[rand_num].toString(), "Exists:", doc.data());
+                storage_vids.pop(storage_vids[rand_num]);
+                rand_num = getRandomInt(0, storage_vids.length - 1);
+            }
+            else {
+                console.log(storage_vids[rand_num].toString(), "doesn't exist");
+                document_exists = false;
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+        await get_doc;
+    }
     current_id = parseInt(storage_vids[rand_num]);
-    index.push(current_id)
+    index.push(current_id);
     const video = 'videos/' + storage_vids[rand_num].toString() + '.mp4';
     const storageRef = firebase.storage().ref();
     storageRef.child(video).getDownloadURL().then(function (url) {
@@ -555,8 +573,7 @@ function getVideo() {
         const display_video = document.querySelector('#display-video');
         display_video.load();
         display_video.play();
-    }).catch(function (error) {
-    });
+    }).catch(function (error) {});
     print_position()
 }
 
