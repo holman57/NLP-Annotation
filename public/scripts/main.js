@@ -467,7 +467,7 @@ function resetLabelOpacity() {
     }
 
     // Nav Right
-    if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown)
+    if (!not_possible && !possible && !incomplete_scene && !language_use && !unknown || position > 9)
         right_button.setAttribute('disabled', 'true');
     else right_button.removeAttribute('disabled');
 
@@ -512,13 +512,13 @@ function left() {
     resetLabelButtons();
     checkIndexLabels(labels[position])
     console.log("label       : " + getLabel());
-    nav_position.innerHTML = position.toString() + "/200";
+    nav_position.innerHTML = position.toString() + "/10";
     loadIndexVideo(index[position]);
     resetLabelOpacity();
 }
 
 function right() {
-    position++;
+    if (position < 10) position++;
     if (position < index.length) {
         loadIndexVideo(index[position]);
         labels[position - 1] = getLabel();
@@ -530,17 +530,35 @@ function right() {
         checkIndexLabels(labels[position])
         console.log("label       : " + getLabel());
     } else {
-        storage_vids.pop(current_id);
-        labeled_vids.push(current_id);
-        labels.push(getLabel())
-        firebase.firestore().collection("videos").doc(current_id.toString()).set({
-            id: current_id,
-            label: getLabel()
-        })
-        resetLabelButtons();
-        getVideo();
+        if (position < 10) {
+            storage_vids.pop(current_id);
+            labeled_vids.push(current_id);
+            labels.push(getLabel())
+            firebase.firestore().collection("videos").doc(current_id.toString()).set({
+                id: current_id,
+                label: getLabel()
+            })
+            resetLabelButtons();
+            getVideo();
+        } else {
+            try {
+                storage_vids.pop(current_id);
+                labeled_vids.push(current_id);
+                labels.push(getLabel())
+            } catch (e) {
+            }
+            firebase.firestore().collection("videos").doc(current_id.toString()).set({
+                id: current_id,
+                label: getLabel()
+            })
+            resetLabelButtons();
+            document.querySelector('#display-source').src = "";
+            const display_video = document.querySelector('#display-video');
+            display_video.load();
+            modal.style.display = "block";
+        }
     }
-    nav_position.innerHTML = position.toString() + "/200";
+    nav_position.innerHTML = position.toString() + "/10";
     resetLabelOpacity();
 }
 
