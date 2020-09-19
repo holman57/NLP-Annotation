@@ -76,3 +76,5 @@ permissions.json
 /backup/firebase_python/.idea/*
 /backup/firebase_python/venv/*
 
+/firebase_python/venv/
+/firebase_python/.idea/
