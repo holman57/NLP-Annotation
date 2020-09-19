@@ -69,6 +69,8 @@ node_modules/
 .env
 *.xml
 database.rules.json
+functions/nlp-annotation-30942-firebase-adminsdk-sxi1d-2f4a3f0257.json
+permissions.json
 /backup/firebase_python/.idea/
 /backup/firebase_python/venv/
 /backup/firebase_python/.idea/*
