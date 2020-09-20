@@ -512,13 +512,13 @@ function left() {
     resetLabelButtons();
     checkIndexLabels(labels[position])
     console.log("label       : " + getLabel());
-    nav_position.innerHTML = position.toString() + "/10";
+    nav_position.innerHTML = position.toString() + "/50";
     loadIndexVideo(index[position]);
     resetLabelOpacity();
 }
 
 function right() {
-    if (position < 10) position++;
+    if (position < 50) position++;
     if (position < index.length) {
         loadIndexVideo(index[position]);
         labels[position - 1] = getLabel();
@@ -530,7 +530,7 @@ function right() {
         checkIndexLabels(labels[position])
         console.log("label       : " + getLabel());
     } else {
-        if (position < 10) {
+        if (position < 50) {
             storage_vids.pop(current_id);
             labeled_vids.push(current_id);
             labels.push(getLabel())
@@ -558,7 +558,7 @@ function right() {
             modal.style.display = "block";
         }
     }
-    nav_position.innerHTML = position.toString() + "/10";
+    nav_position.innerHTML = position.toString() + "/50";
     resetLabelOpacity();
 }
 
