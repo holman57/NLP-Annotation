@@ -80,39 +80,39 @@
                 <div class="mdl-card__supporting-text mdl-color-text--grey-600">
                     <div id="messages">
 
-                        <button id="not-possible"
-                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
-                                onclick="toggleNotPossible()"
-                                style="opacity: 0.5;">
-                            Not possible
-                        </button>
-
                         <button id="possible"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
                                 onclick="togglePossible()"
                                 style="opacity: 0.5;">
-                            Possible
+                            Entirely Correct / Full Compliance
+                        </button>
+
+                        <button id="not-possible"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
+                                onclick="toggleNotPossible()"
+                                style="opacity: 0.5;">
+                            Partially Correct /  Partial Compliance
                         </button>
 
                         <button id="incomplete-scene"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
                                 onclick="toggleIncompleteScene()"
                                 style="opacity: 0.5;">
-                            Incomplete Scene
+                            Language use
                         </button>
 
                         <button id="language-use"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
                                 onclick="toggleLanguageUse()"
                                 style="opacity: 0.5;">
-                            Language Use
+                            Unknown
                         </button>
 
                         <button id="unknown"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect label-button"
                                 onclick="toggleUnknown()"
                                 style="opacity: 0.5;">
-                            Unknown
+                            Misaligned or Other
                         </button>
 
                     </div>
@@ -153,13 +153,56 @@
                 <i class="material-icons mdl-color-text--white">arrow_back_ios</i>
             </button>
             <h3 id="position" style="display: inline" class="mdl-color-text--white">
-                0/500
+                0/599
             </h3>
             <button id="right"
                     class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect dock-buttons"
                     onclick="right()">
                 <i class="material-icons mdl-color-text--white">arrow_forward_ios</i>
             </button>
+        </div>
+        <div id="information">
+            <ol>
+                <li>
+                    <b>Entirely Correct / Full Compliance.</b> The instruction describes the actions by the robot accurately. There is nothing in the instruction that contradicts an action by the robot or what the robot sees.
+                </li>
+                <li>
+                    <b>Partially Correct /  Partial Compliance.</b> The instruction describes the general actions by the robot, but at some point the robot does not technically follow the instruction. For example:
+                    <ul>
+                        <li>
+                            The instruction says turn left but the robot turns right
+                        </li>
+                        <li>
+                            The instruction says pick up the book but the robot picks up a CD
+                        </li>
+                        <li>
+                            The instruction says walk towards the brown table but the robot walks towards the red table
+                        </li>
+                        <li>
+                            If there is a discrepancy between the video and the instruction, this is the right choice, even if the robot appears to reach the goal of the instruction. For example, if the videos shows the <b>robot looking down and locating a gray bin to the right of the toilet,</b> here are the annotations for a few instructions:
+                            <ul>
+                                <li>
+                                    Look down and locate the gray bin to the <b>left</b> of the toilet: Partially Correct (bin on the right vs. bin on the left)
+                                </li>
+                                <li>
+                                    Look down and locate the yellow bin to the right of the toilet: Partially Correct (gray vs. yellow bin)
+                                </li>
+                                <li>
+                                    Look up and locate the gray bin to the right of the toilet: Partially Correct (looking down vs. looking up)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                <li>
+                    <b>Language use:</b> The instruction is not English, I just cannot understand the instructions. We do not expect you to select this option often. For example: Walk lettuce egg refrigerator chill.
+                </li>
+                <li>
+                    <b>Unknown:</b> I can read the instructions, but I cannot choose between 1 and 2. We do not expect you to select this option often.
+                </li>
+                <li>
+                    <b>Misaligned or Other.</b> Anything that doesn’t fit any of the other 4 labels.
+                </li>
+            </ol>
         </div>
     </footer>
 

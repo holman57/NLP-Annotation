@@ -512,13 +512,13 @@ function left() {
     resetLabelButtons();
     checkIndexLabels(labels[position])
     console.log("label       : " + getLabel());
-    nav_position.innerHTML = position.toString() + "/500";
+    nav_position.innerHTML = position.toString() + "/599";
     loadIndexVideo(index[position]);
     resetLabelOpacity();
 }
 
 function right() {
-    if (position < 500) position++;
+    if (position < 599) position++;
     if (position < index.length) {
         loadIndexVideo(index[position]);
         labels[position - 1] = getLabel();
@@ -530,7 +530,7 @@ function right() {
         checkIndexLabels(labels[position])
         console.log("label       : " + getLabel());
     } else {
-        if (position < 500) {
+        if (position < 599) {
             storage_vids.pop(current_id);
             labeled_vids.push(current_id);
             labels.push(getLabel())
@@ -558,7 +558,7 @@ function right() {
             modal.style.display = "block";
         }
     }
-    nav_position.innerHTML = position.toString() + "/500";
+    nav_position.innerHTML = position.toString() + "/599";
     resetLabelOpacity();
 }
 
@@ -687,7 +687,7 @@ checkLabels().then(function (){
     if (storage_vids.length > 0) {
         getVideo();
         resetLabelOpacity();
-        nav_position.innerHTML = position.toString() + "/500";
+        nav_position.innerHTML = position.toString() + "/599";
     }
 })
 

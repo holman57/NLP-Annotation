@@ -4,13 +4,21 @@ html, body {
 .demo-layout {
   background: #0288d1;
 }
+#information {
+  color: white;
+}
+#information > ol, #information > ol > li:nth-child(2) > ul, #information > ol > li:nth-child(2) > ul > li:nth-child(4) > ul {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
 #messages-card-container {
   height: calc(100% - 35px);
   padding-bottom: 0;
 }
 #messages-card {
   margin-top: 15px;
-  width: 300px;
+  width: 375px;
   max-height: 277px;
 }
 .mdl-layout__header-row span {
