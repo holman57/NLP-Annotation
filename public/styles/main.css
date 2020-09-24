@@ -293,12 +293,12 @@ html, body {
 #myBtn {
   display: none;
 }
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 1040px) {
   main {
     max-height: 346px;
   }
 }
-@media screen and (min-width: 961px) {
+@media screen and (min-width: 1041px) {
   main {}
 }
 
